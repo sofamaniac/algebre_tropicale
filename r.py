@@ -17,27 +17,32 @@ def last_position(t,c):
 
 
 
-def calcul_r(s):
-    n=len(s)
+def calcul_r(u):
+    n=len(u)
+    #we initialize the r vector
     r=np.zeros(n,dtype=int)
     for i in range(0,n):
-        c=s[i]
-        prefix=s[0:i]
-        start_ofsubword=last_position(prefix,c)
-        if start_ofsubword==-1:
+        #for each letter c of the word u, and a prefix u' s.t. u=u'cu''
+        #we look at w, first suffic of u' starting with the letter c
+        c=u[i]
+        prefix=u[0:i]
+        start_of_w=last_position(prefix,c)
+        if start_of_w==-1:
             r[i]=0
         else :
-            r[i]=1+np.min(r[start_ofsubword:i])
+            r[i]=1+np.min(r[start_of_w:i])
     return r
+
+
 
 def main():
     if len(sys.argv) !=2:
-        print("usage: r.py [word]")
+        return("usage: r.py [word]")
     else:
         word=sys.argv[1]
-        print(calcul_r(word))
+        return(calcul_r(word))
 
 if __name__== "__main__":
-    main()
+    print(main())
     
 
