@@ -32,11 +32,11 @@ def z_algo(d):
             if z[k] < R-i+1:
                 z[i] = z[k]
             else:
-              L = i
-              while (R < n and d[R-L] == d[R]):
-                R += 1
-              z[i] = R-L
-              R -= 1
+                L = i
+                while (R < n and d[R-L] == d[R]):
+                    R += 1
+                z[i] = R-L
+                R -= 1
     index_max = max(range(len(z)), key=z.__getitem__)
     print(d[:index_max])
     return d[:index_max]
