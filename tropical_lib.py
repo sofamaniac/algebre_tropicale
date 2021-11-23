@@ -9,8 +9,7 @@ def mut_mul(a: np.array, b: np.array) -> np.array:
     assert ay == l, "Dimensions compatible pour la multiplication"
     c = np.full((n, m), np.Inf)
     for i in range(n):
-        for j in range(m):
-            c[i, j] = (a[i, :] + b[:, j]).min()
+        c[i] = (a[i] + b.transpose()).min(1)
     return c
 
 
