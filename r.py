@@ -26,7 +26,9 @@ def calcul_r(u):
         #we look at w, first suffic of u' starting with the letter c
         c=u[i]
         prefix=u[0:i]
-        start_of_w=last_position(prefix,c)
+        #start_of_w=last_position(prefix,c)
+        start_of_w = prefix.rfind(c)
+
         if start_of_w==-1:
             r[i]=0
         else :

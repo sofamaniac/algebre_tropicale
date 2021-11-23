@@ -12,7 +12,7 @@ def calcul_m(u):
 
 def main():
     if len(sys.argv) !=2:
-        return("usage: r.py [word]")
+        return("usage: m.py [word]")
     else:
         word=sys.argv[1]
         return(calcul_m(word))
