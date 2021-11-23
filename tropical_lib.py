@@ -4,14 +4,13 @@ import numpy as np
 
 def mut_mul(a: np.array, b: np.array) -> np.array:
     """Multiplie deux matrices dans l'alèbre tropicale min, +"""
-    n = np.shape(a)[0]
-    m = np.shape(b)[1]
-    l = np.shape(b)[0]
+    n, ay = np.shape(a)
+    l, m = np.shape(b)
+    assert ay == l, "Dimensions compatible pour la multiplication"
     c = np.full((n, m), np.Inf)
     for i in range(n):
         for j in range(m):
-            for k in range(l):
-                c[i, j] = min(c[i, j], a[i, k] + b[k, j])
+            c[i, j] = (a[i, :] + b[:, j]).min()
     return c
 
 

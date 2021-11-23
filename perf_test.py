@@ -1,7 +1,7 @@
 # coding: utf-8
 from time import perf_counter
 import numpy as np
-from tropical_lib_v2 import mut_mul, power
+from tropical_lib import mut_mul, power
 
 
 def perf_test():
