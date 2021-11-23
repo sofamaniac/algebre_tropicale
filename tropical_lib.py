@@ -15,7 +15,7 @@ def power(M, n):
     if n == 1:
         return M
     elif n&1 == 1:
-        return mut_mul(M, power(M, n>>1))
+        return mut_mul(M, power(mut_mul(M, M), n>>1))
     else:
         return power(mut_mul(M, M), n>>1)
 
