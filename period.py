@@ -3,12 +3,14 @@ import sys
 from r import calcul_r
 import re
 
+
 def d_vector(r):
     """Return the vector of substractions of 2 consecutive elements in r"""
     d = []
-    for i in range(len(r) -1):
+    for i in range(len(r) - 1):
         d.append(r[i+1]-r[i])
     return d
+
 
 def z_algo(d):
     """ Return (maybe ?) the period of the input vector
@@ -33,14 +35,15 @@ def z_algo(d):
                 z[i] = z[k]
             else:
                 L = i
-                while (R < n and d[R-L] == d[R]):
+                while R < n and d[R-L] == d[R]:
                     R += 1
                 z[i] = R-L
                 R -= 1
     index_max = max(range(len(z)), key=z.__getitem__)
     print(d[:index_max])
     return d[:index_max]
-        
+
+
 def main():
     if len(sys.argv) != 3:
         print("Usage: python period.py [word] [n]")
@@ -50,6 +53,7 @@ def main():
 
     r = calcul_r(w*n)
     z_algo(d_vector(r))
+
 
 if __name__ == "__main__":
     main()
