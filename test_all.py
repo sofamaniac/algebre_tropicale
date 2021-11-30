@@ -1,10 +1,11 @@
 from unittest import TestCase
 import numpy as np
-from tropical_lib_v2 import mut_mul, power
+from tropical_lib import mut_mul, power
 
 
 class TestAll(TestCase):
     def setUp(self) -> None:
+        inf = infinity = np.float("inf")
         self.a = np.array([[157, 308, 112, 850,  77],
                         [228, 984, 240, 773, 953],
                         [215, 777, 562, 662, 445],
@@ -77,12 +78,37 @@ class TestAll(TestCase):
                          [1180, 691, 585, 680, 1008, 827, 486, 639, 1040, 643],
                          [665, 760, 455, 570, 436, 736, 381, 776, 468, 71]])
 
+        self.f = np.array([[  0., -inf, -inf,  -7.,  -7.],
+                            [ -5.,  -1.,  -4.,   4., -inf],
+                            [ -2., -inf,   2., -inf,  -7.],
+                            [ -6.,  -3.,   5.,  -7.,   0.],
+                            [  5., -inf,  -2.,   2.,   4.]])
+        self.g = np.array([[ -7.,   5.,  -5.,   3.,   6.],
+                            [-inf, -inf, -inf,   3., -inf],
+                            [ -4.,  -6.,   7., -inf, -inf],
+                            [  3., -inf,   6.,  -6.,   6.],
+                            [-inf,   4.,  -7., -inf,  -6.]])
+        self.fg = np.array([[-infinity, -infinity, -infinity, -infinity, -infinity],
+                           [-infinity, -infinity, -infinity, -infinity, -infinity],
+                           [-infinity, -infinity, -infinity, -infinity, -infinity],
+                           [-infinity, -infinity, -infinity, -infinity, -infinity],
+                           [-infinity, -infinity, -infinity, -infinity, -infinity]])
+
+        self.gf = np.array([[-7., -infinity, -infinity, -infinity, -infinity],
+                            [-infinity, -infinity, -infinity, -infinity, -infinity],
+                            [-infinity, -infinity, -infinity, -infinity, -infinity],
+                            [-infinity, -infinity, -infinity, -infinity, -infinity],
+                            [-infinity, -infinity, -infinity, -infinity, -infinity]])
+
     def test_mut_mul(self):
         self.assertTrue(np.array_equal(mut_mul(self.a, self.b), self.ab))
         self.assertTrue(np.array_equal(mut_mul(self.b, self.a), self.ba))
         self.assertTrue(np.array_equal(mut_mul(self.c, self.d), self.cd))
         self.assertTrue(np.array_equal(mut_mul(self.d, self.c), self.dc))
         self.assertTrue(np.array_equal(mut_mul(self.e, self.c), self.ec))
+
+        self.assertTrue(np.array_equal(mut_mul(self.f, self.g), self.fg))
+        self.assertTrue(np.array_equal(mut_mul(self.g, self.f), self.gf))
 
     def test_power(self):
         self.assertTrue(np.array_equal(power(self.a, 3), self.a3))
