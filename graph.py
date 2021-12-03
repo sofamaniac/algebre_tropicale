@@ -12,9 +12,11 @@ def draw_graph(word):
     g = nx.convert_matrix.from_numpy_matrix(m, create_using=nx.DiGraph)
 
     pos = nx.circular_layout(g)
+    weights = nx.get_edge_attributes(g, "weight")
     nx.draw_networkx_nodes(g, pos, node_size=200)
     nx.draw_networkx_labels(g, pos)
     nx.draw_networkx_edges(g, pos, width=1, arrowstyle="-|>", arrows=True)
+    nx.draw_networkx_edge_labels(g, pos, weights)
     plt.show()
 
 if __name__ == "__main__":
