@@ -89,10 +89,11 @@ def critical_cycles(m):
             weight = 0
             l = len(cycle)
 
+            # Addition des poids d'un cycle
             for i in range(l):
                 weight += m_[cycle[i], cycle[(i+1) % l]]
             
-            weight /= l
+            weight /= l 
             if weight < min_weight:
                 min_weight = weight
                 critic = [(cycle, l)]
@@ -109,13 +110,16 @@ def cyclicite(m):
     """
     Retourne la cyclité d'un graphe
     """
-    cycles = critical_cycles(m)
+    # {SCC: [([Sommets composant le cycle1], longueur du cycle1), ([Sommets composant le cycle2], longueur du cycle2) ...]}
+    scc = critical_cycles(m)
     l_gcd = []
-    for c, v in cycles.items():
+    for c, v in scc.items():
         if v != []:
+            # On applique le PGCD sur l'ensemble des cycles d'une SCC pour trouver la cyclicité de la composante connexe
             pgcd = reduce(gcd, [lg for avg, lg in v])
             l_gcd.append(pgcd)
     
+    # On applique le PPCM sur la cyclicité de chaque composante connexe du graphe
     return reduce(lcm, l_gcd)
     
 
