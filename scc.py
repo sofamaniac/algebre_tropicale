@@ -1,57 +1,24 @@
-import numpy as np
-import networkx as nx
-from matrice import calcul_matrix
-from math import gcd
-from functools import reduce
 import sys
-
-def tarjan(m):
-
-    n = m.shape[0]
-    index_list = [-1 for i in range(n)]
-    low_link = [-1 for i in range(n)]
-    on_stack = [False for i in range(n)]
-    index = 0
-    s = []
-    result = []
-
-    def strongConnected(v):
-        nonlocal index
-        index_list[v] = index
-        low_link[v] = index
-        index += 1
-        s.append(v)
-        on_stack[v] = True
+from functools import reduce
+from math import gcd
+import networkx as nx
+import numpy as np
+from scipy.sparse.csgraph import connected_components
+from matrice import calcul_matrix
 
 
-        for w in range(n):
-            if m[v][w] == np.inf:
-                continue
-            if index_list[w] == -1:
-                strongConnected(w)
-                low_link[v] = min(low_link[v], low_link[w])
-            elif on_stack[w]:
-                low_link[v] = min(low_link[v], index_list[w])
+def strongly_connected_components(m: np.array) -> list:
+    """Return the list of the componnent of the graph descbed by
+    the matrix m (with -inf if no edges)"""
+    nb, labels = connected_components(m, connection='strong')
+    return [list(np.arange(m.shape[0])[labels == i]) for i in range(nb)]
 
-        if low_link[v] == index_list[v]:
-            scc = []
-            cont = True
-            while cont:
-                w = s.pop()
-                on_stack[w] = False
-                scc.append(w)
-                cont = (w != v)
-            result.append(scc)
-    
-    for i, v in enumerate(index_list):
-        if v == -1:
-            strongConnected(i)
-    return result
 
 def lcm(a, b):
-    return abs(a*b) // gcd(a, b)
+    return abs(a * b) // gcd(a, b)
 
-def critical_cycles(m):
+
+def critical_cycles(m: np.array):
     """
     Renvoie un dictionnaire associant chaque sous-composante connexe du 
     graphe induit de la matrice à sa liste de cycle critique. Un cycle critique est représenté
@@ -62,7 +29,7 @@ def critical_cycles(m):
     a[a == np.inf] = 0
 
     # On calcule les composantes connexes
-    components = tarjan(m)
+    components = strongly_connected_components(m)
 
     scc_to_cycle = dict()
 
@@ -78,11 +45,11 @@ def critical_cycles(m):
 
         dic = {}
         for i in range(n):
-           dic[i] = c[i]
-        
+            dic[i] = c[i]
+
         # On détermine les cycles dans la composante fortement connexe
         cycles = list(nx.simple_cycles(g_scc))
-        
+
         min_weight = np.inf
         critic = []
         for cycle in cycles:
@@ -91,9 +58,9 @@ def critical_cycles(m):
 
             # Addition des poids d'un cycle
             for i in range(l):
-                weight += m_[cycle[i], cycle[(i+1) % l]]
-            
-            weight /= l 
+                weight += m_[cycle[i], cycle[(i + 1) % l]]
+
+            weight /= l
             if weight < min_weight:
                 min_weight = weight
                 critic = [(cycle, l)]
@@ -101,12 +68,12 @@ def critical_cycles(m):
             elif weight == min_weight:
                 critic.append((cycle, l))
 
-
         scc_to_cycle[tuple(c)] = critic
 
     return scc_to_cycle
 
-def cyclicite(m):
+
+def cyclicite(m: np.array):
     """
     Retourne la cyclité d'un graphe
     """
@@ -118,13 +85,12 @@ def cyclicite(m):
             # On applique le PGCD sur l'ensemble des cycles d'une SCC pour trouver la cyclicité de la composante connexe
             pgcd = reduce(gcd, [lg for avg, lg in v])
             l_gcd.append(pgcd)
-    
+
     # On applique le PPCM sur la cyclicité de chaque composante connexe du graphe
     return reduce(lcm, l_gcd)
-    
+
 
 def main():
-
     if len(sys.argv) < 2:
         exit(1)
 
@@ -138,5 +104,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
