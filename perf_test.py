@@ -1,7 +1,7 @@
 # coding: utf-8
 from time import perf_counter
 import numpy as np
-from tropical_lib import mut_mul, power
+from tropical_lib import matrix_multiplication, power
 
 
 def perf_test():
@@ -189,8 +189,8 @@ def perf_test():
 
     t = perf_counter()
     for i in range(10):
-        mut_mul(a, b)
-        mut_mul(b, a)
+        matrix_multiplication(a, b)
+        matrix_multiplication(b, a)
     return perf_counter() - t
 
 
