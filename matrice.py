@@ -1,7 +1,5 @@
 import numpy as np
 import sys
-from r import last_position
-from tropical_lib import mut_mul
 
 
 def calcul_matrix(u):
