@@ -1,6 +1,6 @@
 from unittest import TestCase
 import numpy as np
-from tropical_lib import mut_mul, power
+from tropical_lib import matrix_multiplication, power
 
 
 class TestAll(TestCase):
@@ -101,14 +101,14 @@ class TestAll(TestCase):
                             [-infinity, -infinity, -infinity, -infinity, -infinity]])
 
     def test_mut_mul(self):
-        self.assertTrue(np.array_equal(mut_mul(self.a, self.b), self.ab))
-        self.assertTrue(np.array_equal(mut_mul(self.b, self.a), self.ba))
-        self.assertTrue(np.array_equal(mut_mul(self.c, self.d), self.cd))
-        self.assertTrue(np.array_equal(mut_mul(self.d, self.c), self.dc))
-        self.assertTrue(np.array_equal(mut_mul(self.e, self.c), self.ec))
+        self.assertTrue(np.array_equal(matrix_multiplication(self.a, self.b), self.ab))
+        self.assertTrue(np.array_equal(matrix_multiplication(self.b, self.a), self.ba))
+        self.assertTrue(np.array_equal(matrix_multiplication(self.c, self.d), self.cd))
+        self.assertTrue(np.array_equal(matrix_multiplication(self.d, self.c), self.dc))
+        self.assertTrue(np.array_equal(matrix_multiplication(self.e, self.c), self.ec))
 
-        self.assertTrue(np.array_equal(mut_mul(self.f, self.g), self.fg))
-        self.assertTrue(np.array_equal(mut_mul(self.g, self.f), self.gf))
+        self.assertTrue(np.array_equal(matrix_multiplication(self.f, self.g), self.fg))
+        self.assertTrue(np.array_equal(matrix_multiplication(self.g, self.f), self.gf))
 
     def test_power(self):
         self.assertTrue(np.array_equal(power(self.a, 3), self.a3))
