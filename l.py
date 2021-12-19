@@ -1,10 +1,5 @@
-import numpy as np
 import sys
-from r import calcul_r
-
-
-def calcul_l(u):
-    return calcul_r(u[::-1])[::-1]
+from tropical_lib import calcul_l
 
 
 def main():

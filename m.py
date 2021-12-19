@@ -1,14 +1,5 @@
-import numpy as np
 import sys
-from r import calcul_r
-from l import calcul_l
-
-
-def calcul_m(u: np.array) -> int:
-    r = calcul_r(u)
-    l = calcul_l(u)
-    s = r + l
-    return 1 + np.max(s)
+from tropical_lib import calcul_m
 
 
 def main():

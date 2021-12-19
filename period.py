@@ -1,6 +1,6 @@
 import numpy as np
 import sys
-from r import calcul_r
+from tropical_lib import calcul_r
 import re
 
 
